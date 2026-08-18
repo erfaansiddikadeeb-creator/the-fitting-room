@@ -399,6 +399,112 @@ export default function TailorApp() {
                 {result.fitNote}
               </p>
 
+              <div
+                style={{
+                  background: "#fff",
+                  border: "1px solid #e2ddd0",
+                  borderRadius: "6px",
+                  padding: "14px 16px",
+                  marginBottom: "22px",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    marginBottom: "10px",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: "'IBM Plex Mono', monospace",
+                      fontSize: "11px",
+                      letterSpacing: "0.1em",
+                      textTransform: "uppercase",
+                      color: "#6b6558",
+                    }}
+                  >
+                    ATS keyword match
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: "'Fraunces', serif",
+                      fontWeight: 600,
+                      fontSize: "20px",
+                      color:
+                        result.atsScore >= 70
+                          ? "#4a7c59"
+                          : result.atsScore >= 40
+                          ? "#B8935A"
+                          : "#B5493D",
+                    }}
+                  >
+                    {result.atsScore}%
+                  </span>
+                </div>
+
+                <div
+                  style={{
+                    height: "6px",
+                    borderRadius: "3px",
+                    background: "#EDEAE2",
+                    overflow: "hidden",
+                    marginBottom: result.missingKeywords?.length ? "12px" : "0",
+                  }}
+                >
+                  <div
+                    style={{
+                      height: "100%",
+                      width: `${result.atsScore}%`,
+                      borderRadius: "3px",
+                      background:
+                        result.atsScore >= 70
+                          ? "#4a7c59"
+                          : result.atsScore >= 40
+                          ? "#B8935A"
+                          : "#B5493D",
+                      transition: "width 0.6s ease",
+                    }}
+                  />
+                </div>
+
+                {result.missingKeywords?.length > 0 && (
+                  <>
+                    <span
+                      style={{
+                        fontFamily: "'IBM Plex Mono', monospace",
+                        fontSize: "10.5px",
+                        letterSpacing: "0.08em",
+                        textTransform: "uppercase",
+                        color: "#8b8578",
+                        display: "block",
+                        marginBottom: "7px",
+                      }}
+                    >
+                      Missing keywords
+                    </span>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+                      {result.missingKeywords.map((kw, i) => (
+                        <span
+                          key={i}
+                          style={{
+                            fontSize: "12px",
+                            padding: "3px 9px",
+                            borderRadius: "999px",
+                            background: "#f6ede9",
+                            border: "1px solid #e3c9c0",
+                            color: "#8a3a2e",
+                          }}
+                        >
+                          {kw}
+                        </span>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+
               <div style={{ marginBottom: "22px" }}>
                 <div
                   style={{
