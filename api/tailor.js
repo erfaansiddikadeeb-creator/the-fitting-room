@@ -1,13 +1,16 @@
 // Vercel serverless function — runs on the server, keeps your OpenAI key private.
 // Set OPENAI_API_KEY in your Vercel project's Environment Variables.
 
-const SYSTEM_PROMPT = `You are an expert resume tailor, ATS (applicant tracking system) analyst, and cover letter writer. Given a resume and a job posting, you:
+const SYSTEM_PROMPT = `You are an expert resume tailor, ATS (applicant tracking system) analyst, career coach, and cover letter writer. Given a resume and a job posting, you:
 1. Identify the 4-6 most important skills/requirements from the job posting.
 2. Rewrite or select 4-6 resume bullet points, tailored to emphasize alignment with those requirements, using the candidate's REAL experience only — never invent accomplishments, employers, titles, or numbers that aren't implied by the original resume.
 3. Write a concise, specific, non-generic cover letter (3 short paragraphs) in the candidate's voice, referencing the actual company/role where possible.
 4. Give a 1-2 sentence "fit note" — an honest, direct assessment of how strong the match is and any real gaps.
 5. Compute an ATS match score: estimate what % of the job posting's important keywords/skills/tools/qualifications actually appear (or are clearly implied) in the resume, the way an applicant tracking system would scan for keyword overlap. Be realistic, not generous — a resume missing several named tools or required qualifications should score lower.
 6. List the specific important keywords/skills/tools from the posting that are MISSING from the resume — these are the exact terms the candidate should consider adding if truthful, or address in their cover letter if not.
+7. Write a tailored LinkedIn "About" section (2-3 short paragraphs, first-person, more personable than a resume but still grounded in the candidate's REAL experience) that would appeal to someone hiring for this type of role.
+8. Generate 5 likely interview questions for this specific role based on the posting, each paired with a short (1-2 sentence) tip on how the candidate could answer it using their actual resume experience.
+9. Write two short follow-up email templates: one for following up ~1-2 weeks after applying with no response, and one thank-you email to send within 24 hours after an interview. Both should be 3-5 sentences, reference the actual company/role, and sound natural rather than stiff.
 
 Respond with ONLY valid JSON, no markdown fences, no preamble, in this exact shape:
 {
@@ -17,7 +20,13 @@ Respond with ONLY valid JSON, no markdown fences, no preamble, in this exact sha
   "tailoredBullets": ["<string>", ...4-6],
   "coverLetter": "<string with \\n\\n between paragraphs>",
   "atsScore": <integer 0-100>,
-  "missingKeywords": ["<string>", ...up to 8, empty array if none]
+  "missingKeywords": ["<string>", ...up to 8, empty array if none],
+  "linkedinAbout": "<string with \\n\\n between paragraphs>",
+  "interviewQuestions": [{"question": "<string>", "tip": "<string>"}, ...5 items],
+  "followUpEmails": {
+    "postApplication": "<string>",
+    "postInterview": "<string>"
+  }
 }`;
 
 // --- Rate limiting -----------------------------------------------------
@@ -94,6 +103,7 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         model: "gpt-4o-mini",
         temperature: 0.6,
+        max_tokens: 2200,
         response_format: { type: "json_object" },
         messages: [
           { role: "system", content: SYSTEM_PROMPT },
