@@ -601,6 +601,205 @@ export default function TailorApp() {
                   {result.coverLetter}
                 </div>
               </div>
+
+              {result.linkedinAbout && (
+                <div style={{ marginBottom: "22px" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginBottom: "8px",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: "'IBM Plex Mono', monospace",
+                        fontSize: "11px",
+                        letterSpacing: "0.1em",
+                        textTransform: "uppercase",
+                        color: "#6b6558",
+                      }}
+                    >
+                      LinkedIn About
+                    </span>
+                    <button
+                      className="copy-btn"
+                      onClick={() => copyText("linkedin", result.linkedinAbout)}
+                      style={{
+                        background: "#EDEAE2",
+                        border: "1px solid #d6d1c4",
+                        borderRadius: "4px",
+                        padding: "4px 9px",
+                        fontSize: "11px",
+                        color: "#2B2E33",
+                        cursor: "pointer",
+                      }}
+                    >
+                      {copied === "linkedin" ? "Copied" : "Copy"}
+                    </button>
+                  </div>
+                  <div
+                    style={{
+                      background: "#fff",
+                      border: "1px solid #e2ddd0",
+                      borderRadius: "4px",
+                      padding: "14px 16px",
+                      fontSize: "13.5px",
+                      lineHeight: 1.65,
+                      whiteSpace: "pre-wrap",
+                      color: "#2B2E33",
+                    }}
+                  >
+                    {result.linkedinAbout}
+                  </div>
+                </div>
+              )}
+
+              {result.interviewQuestions?.length > 0 && (
+                <div style={{ marginBottom: "22px" }}>
+                  <span
+                    style={{
+                      fontFamily: "'IBM Plex Mono', monospace",
+                      fontSize: "11px",
+                      letterSpacing: "0.1em",
+                      textTransform: "uppercase",
+                      color: "#6b6558",
+                      display: "block",
+                      marginBottom: "8px",
+                    }}
+                  >
+                    Likely interview questions
+                  </span>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                    {result.interviewQuestions.map((q, i) => (
+                      <div
+                        key={i}
+                        style={{
+                          background: "#fff",
+                          border: "1px solid #e2ddd0",
+                          borderLeft: "3px solid #1B2430",
+                          borderRadius: "4px",
+                          padding: "10px 14px",
+                        }}
+                      >
+                        <p style={{ margin: "0 0 5px", fontSize: "13.5px", fontWeight: 600, color: "#1B2430" }}>
+                          {q.question}
+                        </p>
+                        <p style={{ margin: 0, fontSize: "12.5px", color: "#6b6558", lineHeight: 1.5 }}>
+                          {q.tip}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {result.followUpEmails && (
+                <div style={{ marginBottom: "6px" }}>
+                  <span
+                    style={{
+                      fontFamily: "'IBM Plex Mono', monospace",
+                      fontSize: "11px",
+                      letterSpacing: "0.1em",
+                      textTransform: "uppercase",
+                      color: "#6b6558",
+                      display: "block",
+                      marginBottom: "8px",
+                    }}
+                  >
+                    Follow-up emails
+                  </span>
+
+                  <div style={{ marginBottom: "12px" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        marginBottom: "6px",
+                      }}
+                    >
+                      <span style={{ fontSize: "12px", color: "#8b8578" }}>
+                        After applying, no response yet
+                      </span>
+                      <button
+                        className="copy-btn"
+                        onClick={() => copyText("followup1", result.followUpEmails.postApplication)}
+                        style={{
+                          background: "#EDEAE2",
+                          border: "1px solid #d6d1c4",
+                          borderRadius: "4px",
+                          padding: "4px 9px",
+                          fontSize: "11px",
+                          color: "#2B2E33",
+                          cursor: "pointer",
+                        }}
+                      >
+                        {copied === "followup1" ? "Copied" : "Copy"}
+                      </button>
+                    </div>
+                    <div
+                      style={{
+                        background: "#fff",
+                        border: "1px solid #e2ddd0",
+                        borderRadius: "4px",
+                        padding: "12px 14px",
+                        fontSize: "13px",
+                        lineHeight: 1.6,
+                        whiteSpace: "pre-wrap",
+                        color: "#2B2E33",
+                      }}
+                    >
+                      {result.followUpEmails.postApplication}
+                    </div>
+                  </div>
+
+                  <div>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        marginBottom: "6px",
+                      }}
+                    >
+                      <span style={{ fontSize: "12px", color: "#8b8578" }}>
+                        Thank-you, after an interview
+                      </span>
+                      <button
+                        className="copy-btn"
+                        onClick={() => copyText("followup2", result.followUpEmails.postInterview)}
+                        style={{
+                          background: "#EDEAE2",
+                          border: "1px solid #d6d1c4",
+                          borderRadius: "4px",
+                          padding: "4px 9px",
+                          fontSize: "11px",
+                          color: "#2B2E33",
+                          cursor: "pointer",
+                        }}
+                      >
+                        {copied === "followup2" ? "Copied" : "Copy"}
+                      </button>
+                    </div>
+                    <div
+                      style={{
+                        background: "#fff",
+                        border: "1px solid #e2ddd0",
+                        borderRadius: "4px",
+                        padding: "12px 14px",
+                        fontSize: "13px",
+                        lineHeight: 1.6,
+                        whiteSpace: "pre-wrap",
+                        color: "#2B2E33",
+                      }}
+                    >
+                      {result.followUpEmails.postInterview}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
